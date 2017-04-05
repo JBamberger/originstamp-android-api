@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -63,8 +64,11 @@ public class OriginStampAPI {
         // call
         Call<HashResponseDTO> call = stampService.storeHashInformation(pHash, this.apiKey, pHashRequestDTO);
 
+        // execute the request
+        Response<HashResponseDTO> response = call.execute();
+
         // execute request and return body
-        return call.execute().body();
+        return response.body();
 
     }
 
@@ -109,7 +113,7 @@ public class OriginStampAPI {
 
         // call
         Call<HashResponseDTO> call = stampService.getHashInformation(pHash, this.apiKey);
-        
+
         // execute request and return body
         return call.execute().body();
     }
