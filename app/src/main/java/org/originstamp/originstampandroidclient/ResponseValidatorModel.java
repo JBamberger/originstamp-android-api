@@ -14,7 +14,7 @@ import retrofit2.Response;
  * Created by Thomas on 04.04.17.
  */
 
-public class ResponseValidatorModel {
+class ResponseValidatorModel {
     /**
      * constructor which creates a new instance of the current class
      */

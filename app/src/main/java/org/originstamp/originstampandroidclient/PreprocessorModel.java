@@ -11,7 +11,7 @@ import org.originstamp.originstampandroidclient.exceptions.InvalidUrlFormatExcep
  * Created by Thomas on 04.04.17.
  */
 
-public class PreprocessorModel {
+class PreprocessorModel {
     /**
      * preprocesses the hash request. Validates the input and makes it lowercase
      *
