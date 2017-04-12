@@ -7,6 +7,11 @@ import org.originstamp.originstampandroidclient.exceptions.InvalidCommentExcepti
 import org.originstamp.originstampandroidclient.exceptions.InvalidHashFormatException;
 import org.originstamp.originstampandroidclient.exceptions.InvalidMailFormatException;
 import org.originstamp.originstampandroidclient.exceptions.InvalidUrlFormatException;
+import org.originstamp.originstampandroidclient.exceptions.OriginStampBadRequestException;
+import org.originstamp.originstampandroidclient.exceptions.OriginStampForbiddenException;
+import org.originstamp.originstampandroidclient.exceptions.OriginStampInternalServerException;
+import org.originstamp.originstampandroidclient.exceptions.OriginStampRateLimitException;
+import org.originstamp.originstampandroidclient.exceptions.OriginStampResourceNotFoundException;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -47,7 +52,7 @@ public class OriginStampAPI {
      *
      * @return
      */
-    public HashResponseDTO storeHashInformation(String pHash, HashRequestDTO pHashRequestDTO) throws IOException, InvalidHashFormatException, InvalidApiKeyFormatException, InvalidCommentException, InvalidUrlFormatException, InvalidMailFormatException {
+    public HashResponseDTO storeHashInformation(String pHash, HashRequestDTO pHashRequestDTO) throws InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException, InvalidApiKeyFormatException, InvalidHashFormatException, IOException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
         // preprocessing
         PreprocessorModel preprocessorModel = new PreprocessorModel();
 
@@ -67,9 +72,11 @@ public class OriginStampAPI {
         // execute the request
         Response<HashResponseDTO> response = call.execute();
 
-        // execute request and return body
-        return response.body();
+        // init response validator
+        ResponseValidatorModel responseValidatorModel = new ResponseValidatorModel();
 
+        // handling the response and throwing exceptions if necessary
+        return responseValidatorModel.handleResponse(response);
     }
 
     /**
@@ -99,7 +106,7 @@ public class OriginStampAPI {
      * @return
      * @throws IOException
      */
-    public HashResponseDTO getHashInformation(String pHash) throws IOException, InvalidHashFormatException, InvalidApiKeyFormatException {
+    public HashResponseDTO getHashInformation(String pHash) throws OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException {
         // lower case
         pHash = pHash.toLowerCase();
         this.apiKey = this.apiKey.toLowerCase();
@@ -114,8 +121,14 @@ public class OriginStampAPI {
         // call
         Call<HashResponseDTO> call = stampService.getHashInformation(pHash, this.apiKey);
 
-        // execute request and return body
-        return call.execute().body();
+        // execute the request
+        Response<HashResponseDTO> response = call.execute();
+
+        // init response validator
+        ResponseValidatorModel responseValidatorModel = new ResponseValidatorModel();
+
+        // handling the response and throwing exceptions if necessary
+        return responseValidatorModel.handleResponse(response);
     }
 
     /**
@@ -126,7 +139,7 @@ public class OriginStampAPI {
      * @return
      * @throws NoSuchAlgorithmException
      */
-    public HashResponseDTO getHashInformation(byte[] pInput) throws NoSuchAlgorithmException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException {
+    public HashResponseDTO getHashInformation(byte[] pInput) throws NoSuchAlgorithmException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
         // converting input to sha256 hash
         return this.getHashInformation(
                 getSha256(

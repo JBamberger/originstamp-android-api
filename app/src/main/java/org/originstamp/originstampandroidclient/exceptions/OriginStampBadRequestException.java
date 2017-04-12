@@ -1,0 +1,11 @@
+package org.originstamp.originstampandroidclient.exceptions;
+
+/**
+ * Created by Thomas on 12.04.17.
+ */
+
+public class OriginStampBadRequestException extends Exception {
+    public OriginStampBadRequestException(String message) {
+        super(message);
+    }
+}
