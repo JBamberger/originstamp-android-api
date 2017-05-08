@@ -33,7 +33,7 @@ And this one to your project module: build.gradle
 
 Note: OriginStamp only accepts SHA-256 in Hex representation. 
 
-## get hash information
+## Get Hash Information
 
         // init OriginStamp API Client
         OriginStampAPI originStampAPI = new OriginStampAPI(
@@ -53,9 +53,14 @@ Note: OriginStamp only accepts SHA-256 in Hex representation.
         );
 
         return originStampAPI.storeHashInformation(pHashInHex, pHashRequest);
-        
-# ToDos
+       
+       
+## Get Seed Information
 
-Error Handling
+        // init OriginStamp API Client
+        OriginStampAPI originStampAPI = new OriginStampAPI(
+                // hand over the api key
+                this.context.getString(R.string.originStampApi)
+        );
 
-If an HTTP error occurs, the library returns "null" as a response.
+        return originStampAPI.getSeed(pHashInHex);
