@@ -1,6 +1,5 @@
 package org.originstamp.originstampandroidclient;
 
-import org.originstamp.originstampandroidclient.commons.HashResponseDTO;
 import org.originstamp.originstampandroidclient.exceptions.InvalidApiKeyFormatException;
 import org.originstamp.originstampandroidclient.exceptions.OriginStampBadRequestException;
 import org.originstamp.originstampandroidclient.exceptions.OriginStampForbiddenException;
@@ -27,7 +26,12 @@ class ResponseValidatorModel {
      * @param pResponse
      * @throws InvalidApiKeyFormatException
      */
-    public HashResponseDTO handleResponse(Response<HashResponseDTO> pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
+    public Object handleResponse(Response pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
+        // get result code
+        return this.getResponse(pResponse);
+    }
+
+    private Object getResponse(Response pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
         // get result code
         int resultCode = pResponse.code();
 

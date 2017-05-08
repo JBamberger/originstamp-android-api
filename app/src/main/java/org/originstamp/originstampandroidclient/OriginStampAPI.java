@@ -16,6 +16,7 @@ import org.originstamp.originstampandroidclient.exceptions.OriginStampResourceNo
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -76,7 +77,41 @@ public class OriginStampAPI {
         ResponseValidatorModel responseValidatorModel = new ResponseValidatorModel();
 
         // handling the response and throwing exceptions if necessary
-        return responseValidatorModel.handleResponse(response);
+        return (HashResponseDTO) responseValidatorModel.handleResponse(response);
+    }
+
+    /**
+     * requests the seed file for a hash
+     * @param pHash
+     * @return
+     */
+    public String getSeed(String pHash) throws InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException, InvalidApiKeyFormatException, InvalidHashFormatException, IOException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
+        // preprocessing
+        PreprocessorModel preprocessorModel = new PreprocessorModel();
+
+        preprocessorModel.preprocessRequest(
+                pHash,
+                this.apiKey,
+                null
+        );
+
+
+        // get originstamp service
+        OriginStampService stampService = getOriginStampService();
+        // call
+        Call<ResponseBody> call = stampService.getSeedString(pHash, this.apiKey);
+
+        // execute the request
+        Response<ResponseBody> response = call.execute();
+
+        // init response validator
+        ResponseValidatorModel responseValidatorModel = new ResponseValidatorModel();
+
+        // validation
+        ResponseBody responseBody = (ResponseBody) responseValidatorModel.handleResponse(response);
+
+        // handling the response and throwing exceptions if necessary
+        return responseBody.string();
     }
 
     /**
@@ -128,7 +163,7 @@ public class OriginStampAPI {
         ResponseValidatorModel responseValidatorModel = new ResponseValidatorModel();
 
         // handling the response and throwing exceptions if necessary
-        return responseValidatorModel.handleResponse(response);
+        return (HashResponseDTO) responseValidatorModel.handleResponse(response);
     }
 
     /**

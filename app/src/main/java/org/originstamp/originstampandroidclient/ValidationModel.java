@@ -20,12 +20,27 @@ class ValidationModel {
     public ValidationModel() {
     }
 
+    /**
+     * validates the input
+     * @param pHash
+     * @param pApiKey
+     * @param pHashRequestDTO
+     * @throws InvalidHashFormatException
+     * @throws InvalidApiKeyFormatException
+     * @throws InvalidCommentException
+     * @throws InvalidMailFormatException
+     * @throws InvalidUrlFormatException
+     */
     public void validateStoreRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO)
             throws InvalidHashFormatException,
             InvalidApiKeyFormatException, InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException {
 
         // validating the credentials
         validateCredentials(pApiKey, pHash);
+
+        if (pHashRequestDTO == null) {
+            return;
+        }
 
         if (pHashRequestDTO.getComment() != null) {
             if (pHashRequestDTO.getComment().length() > 256) {

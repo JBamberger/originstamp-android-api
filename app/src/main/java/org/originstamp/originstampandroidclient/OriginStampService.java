@@ -3,6 +3,7 @@ package org.originstamp.originstampandroidclient;
 import org.originstamp.originstampandroidclient.commons.HashRequestDTO;
 import org.originstamp.originstampandroidclient.commons.HashResponseDTO;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -25,5 +26,11 @@ public interface OriginStampService {
             @Path("hash_string") String pHash,
             @Header("Authorization") String apiKey,
             @Body HashRequestDTO pHashRequestDTO
+    );
+
+    @GET("download/seed/{hash_string}")
+    Call<ResponseBody> getSeedString(
+            @Path("hash_string") String pHash,
+            @Header("Authorization") String apiKey
     );
 }
