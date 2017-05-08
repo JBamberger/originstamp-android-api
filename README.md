@@ -1,7 +1,7 @@
 # originstamp_android_client
 Android Client for the OriginStamp API
 
-The current version tag is: 0.14
+The current version tag is: 0.15
 
 Use this project to communicate with the OriginStamp API. You can use this library to store or to retrieve hash information which is timestamped by OriginStamp (https://originstamp.org).
 
@@ -26,7 +26,7 @@ And this one to your project module: build.gradle
             .
             .
             .
-            compile 'com.github.thhepp:originstamp_android_client:0.14'
+            compile 'com.github.thhepp:originstamp_android_client:0.15'
         }
         
 # How To Use It
@@ -34,6 +34,8 @@ And this one to your project module: build.gradle
 Note: OriginStamp only accepts SHA-256 in Hex representation. 
 
 ## Get Hash Information
+
+The request looks up the hash information for a certain SHA256 hash. If the hash does not exist, OriginStamp will automatically create a new entry.
 
         // init OriginStamp API Client
         OriginStampAPI originStampAPI = new OriginStampAPI(
@@ -46,6 +48,8 @@ Note: OriginStamp only accepts SHA-256 in Hex representation.
         
 ## Store Hash Information
 
+The request looks up the hash information for a certain SHA256 hash. If the hash does not exist, OriginStamp will automatically create a new entry.
+
         // init OriginStamp API Client
         OriginStampAPI originStampAPI = new OriginStampAPI(
                 // hand over the api key
@@ -56,6 +60,8 @@ Note: OriginStamp only accepts SHA-256 in Hex representation.
        
        
 ## Get Seed Information
+
+The seed file is needed for the validation.
 
         // init OriginStamp API Client
         OriginStampAPI originStampAPI = new OriginStampAPI(
