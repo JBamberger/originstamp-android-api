@@ -27,6 +27,8 @@ public class HashResponseDTO implements Serializable {
     private SingleSeed singleSeed;
     @JsonProperty("multi_seed")
     private MultiSeed multiSeed;
+    @JsonProperty("created")
+    private Boolean created;
 
     public static class SingleSeed implements Serializable {
         @JsonProperty("block_depth")
@@ -293,5 +295,13 @@ public class HashResponseDTO implements Serializable {
 
     public void setMultiSeed(MultiSeed multiSeed) {
         this.multiSeed = multiSeed;
+    }
+
+    public Boolean getCreated() {
+        return created;
+    }
+
+    public void setCreated(Boolean created) {
+        this.created = created;
     }
 }
