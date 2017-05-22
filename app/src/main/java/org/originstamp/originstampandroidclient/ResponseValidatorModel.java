@@ -35,6 +35,7 @@ class ResponseValidatorModel {
         // get result code
         int resultCode = pResponse.code();
 
+        // validating the result code
         switch (resultCode) {
             case 200: // all fine
                 return pResponse.body();
