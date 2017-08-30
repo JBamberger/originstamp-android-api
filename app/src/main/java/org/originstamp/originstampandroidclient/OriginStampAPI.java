@@ -30,6 +30,7 @@ public class OriginStampAPI {
     private static final String API_ENDPOINT = "http://api.originstamp.org/api/";
     // member variable
     private String apiKey;
+    private String endpoint;
 
     /**
      * constructor which creates a new instance of the current class
@@ -37,6 +38,17 @@ public class OriginStampAPI {
     public OriginStampAPI(String pApiKey) {
         // hand over parameter
         this.apiKey = pApiKey;
+        this.endpoint = API_ENDPOINT;
+    }
+
+    /**
+     * constructor
+     * @param pApiKey
+     * @param pEndpoint
+     */
+    public OriginStampAPI(String pApiKey, String pEndpoint) {
+        this.apiKey = pApiKey;
+        this.endpoint = pEndpoint;
     }
 
     /**
@@ -122,7 +134,7 @@ public class OriginStampAPI {
     private OriginStampService getOriginStampService() {
         // init retrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_ENDPOINT)
+                .baseUrl(this.endpoint)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
