@@ -5,6 +5,10 @@ The current version tag is: 0.16
 
 Use this project to communicate with the OriginStamp API. You can use this library to store or to retrieve hash information which is timestamped by OriginStamp (https://originstamp.org).
 
+# ProGuard
+
+        -keep class org.originstamp.originstampandroidclient.** { *; }
+        -dontwarn org.originstamp.originstampandroidclient.**
 
 # Add Gradle dependency
 
