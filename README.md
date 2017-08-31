@@ -1,7 +1,7 @@
 # originstamp_android_client
 Android Client for the OriginStamp API
 
-The current version tag is: 0.16
+The current version tag is: 0.17
 
 Use this project to communicate with the OriginStamp API. You can use this library to store or to retrieve hash information which is timestamped by OriginStamp (https://originstamp.org).
 
