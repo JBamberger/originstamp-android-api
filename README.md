@@ -1,7 +1,7 @@
 # OriginStamp for Android
 Android Client for the OriginStamp API
 
-The current version tag is: 0.17
+The current version tag is: 0.18
 
 Use this project to communicate with the OriginStamp API. You can use this library to store or to retrieve hash information which is timestamped by OriginStamp (https://originstamp.org).
 
@@ -30,7 +30,7 @@ And this one to your project module: build.gradle
             .
             .
             .
-            compile 'com.github.thhepp:OriginStamp4J-android:0.17'
+            compile 'com.github.thhepp:OriginStamp4J-android:0.18'
         }
         
 # How To Use It
