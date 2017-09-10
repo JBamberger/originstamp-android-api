@@ -30,7 +30,7 @@ And this one to your project module: build.gradle
             .
             .
             .
-            compile 'com.github.thhepp:originstamp_android_client:0.17'
+            compile 'com.github.thhepp:OriginStamp4J-android:0.17'
         }
         
 # How To Use It
