@@ -1,6 +1,7 @@
 package org.originstamp.originstampandroidclient.commons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * of this code by this author. You are not allowed to sell / buy / modify / add / anything to this code without a permission of Thomas Hepp.
  * <p>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class HashResponseDTO implements Serializable {
     @JsonProperty("comment")
     private String comment;
