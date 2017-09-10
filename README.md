@@ -1,4 +1,4 @@
-# originstamp_android_client
+# OriginStamp for Android
 Android Client for the OriginStamp API
 
 The current version tag is: 0.17
@@ -30,7 +30,7 @@ And this one to your project module: build.gradle
             .
             .
             .
-            compile 'com.github.thhepp:originstamp_android_client:0.16'
+            compile 'com.github.thhepp:originstamp_android_client:0.17'
         }
         
 # How To Use It
