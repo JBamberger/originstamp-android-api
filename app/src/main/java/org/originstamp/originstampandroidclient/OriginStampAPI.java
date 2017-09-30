@@ -30,25 +30,28 @@ public class OriginStampAPI {
     private static final String API_ENDPOINT = "http://api.originstamp.org/api/";
     // member variable
     private String apiKey;
-    private String endpoint;
+    private final OriginStampService api;
 
     /**
      * constructor which creates a new instance of the current class
      */
     public OriginStampAPI(String pApiKey) {
-        // hand over parameter
-        this.apiKey = pApiKey;
-        this.endpoint = API_ENDPOINT;
+        this(pApiKey, API_ENDPOINT);
     }
 
     /**
      * constructor
+     *
      * @param pApiKey
      * @param pEndpoint
      */
     public OriginStampAPI(String pApiKey, String pEndpoint) {
         this.apiKey = pApiKey;
-        this.endpoint = pEndpoint;
+        api = new Retrofit.Builder()
+                .baseUrl(pEndpoint)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build()
+                .create(OriginStampService.class);
     }
 
     /**
@@ -69,18 +72,10 @@ public class OriginStampAPI {
         // preprocessing
         PreprocessorModel preprocessorModel = new PreprocessorModel();
 
-        preprocessorModel.preprocessRequest(
-                pHash,
-                this.apiKey,
-                pHashRequestDTO
-        );
-
-
-        // get originstamp service
-        OriginStampService stampService = getOriginStampService();
+        preprocessorModel.preprocessRequest(pHash, this.apiKey, pHashRequestDTO);
 
         // call
-        Call<HashResponseDTO> call = stampService.storeHashInformation(pHash, this.apiKey, pHashRequestDTO);
+        Call<HashResponseDTO> call = api.storeHashInformation(pHash, this.apiKey, pHashRequestDTO);
 
         // execute the request
         Response<HashResponseDTO> response = call.execute();
@@ -94,6 +89,7 @@ public class OriginStampAPI {
 
     /**
      * requests the seed file for a hash
+     *
      * @param pHash
      * @return
      */
@@ -101,17 +97,10 @@ public class OriginStampAPI {
         // preprocessing
         PreprocessorModel preprocessorModel = new PreprocessorModel();
 
-        preprocessorModel.preprocessRequest(
-                pHash,
-                this.apiKey,
-                null
-        );
+        preprocessorModel.preprocessRequest(pHash, this.apiKey, null);
 
-
-        // get originstamp service
-        OriginStampService stampService = getOriginStampService();
         // call
-        Call<ResponseBody> call = stampService.getSeedString(pHash, this.apiKey);
+        Call<ResponseBody> call = api.getSeedString(pHash, this.apiKey);
 
         // execute the request
         Response<ResponseBody> response = call.execute();
@@ -124,25 +113,6 @@ public class OriginStampAPI {
 
         // handling the response and throwing exceptions if necessary
         return responseBody.string();
-    }
-
-    /**
-     * returns a new originstamp service
-     *
-     * @return
-     */
-    private OriginStampService getOriginStampService() {
-        // init retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.endpoint)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .build();
-
-        // init originstamp service
-        OriginStampService service = retrofit.create(OriginStampService.class);
-
-        // return service
-        return service;
     }
 
     /**
@@ -162,11 +132,8 @@ public class OriginStampAPI {
         ValidationModel validationModel = new ValidationModel();
         validationModel.validateCredentials(this.apiKey, pHash);
 
-        // get originstamp service
-        OriginStampService stampService = getOriginStampService();
-
         // call
-        Call<HashResponseDTO> call = stampService.getHashInformation(pHash, this.apiKey);
+        Call<HashResponseDTO> call = api.getHashInformation(pHash, this.apiKey);
 
         // execute the request
         Response<HashResponseDTO> response = call.execute();
@@ -189,10 +156,7 @@ public class OriginStampAPI {
     public HashResponseDTO getHashInformation(byte[] pInput) throws NoSuchAlgorithmException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
         // converting input to sha256 hash
         return this.getHashInformation(
-                getSha256(
-                        pInput
-                )
-        );
+                getSha256(pInput));
     }
 
     /**
