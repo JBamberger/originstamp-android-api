@@ -9,13 +9,12 @@ import java.security.NoSuchAlgorithmException;
 
 final class HashModel {
 
-    private HashModel() {throw new AssertionError("No instances of HashModel!");}
+    private HashModel() {
+        throw new AssertionError("No instances of HashModel!");
+    }
 
     /**
      * converts a byte array to its hex string representation
-     *
-     * @param pBytes
-     * @return
      */
     private static String convertToHex(byte[] pBytes) {
         // init string buffer
@@ -34,9 +33,6 @@ final class HashModel {
 
     /**
      * calculates the SHA256 hash from a byte array and returns it in HEX
-     *
-     * @param pBytes
-     * @return
      */
     static String getSHA256(byte[] pBytes) throws NoSuchAlgorithmException {
         MessageDigest sha = MessageDigest.getInstance("SHA-256");

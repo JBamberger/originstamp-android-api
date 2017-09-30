@@ -21,14 +21,6 @@ final class ValidationModel {
 
     /**
      * validates the input
-     * @param pHash
-     * @param pApiKey
-     * @param pHashRequestDTO
-     * @throws InvalidHashFormatException
-     * @throws InvalidApiKeyFormatException
-     * @throws InvalidCommentException
-     * @throws InvalidMailFormatException
-     * @throws InvalidUrlFormatException
      */
     static void validateStoreRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO)
             throws InvalidHashFormatException,
@@ -69,11 +61,6 @@ final class ValidationModel {
 
     /**
      * validates the api key and the hash format
-     *
-     * @param pApiKey
-     * @param pHash
-     * @throws InvalidHashFormatException
-     * @throws InvalidApiKeyFormatException
      */
     static void validateCredentials(String pApiKey, String pHash) throws InvalidHashFormatException, InvalidApiKeyFormatException {
         if (!isValidHashFormat(pHash)) {
@@ -87,35 +74,18 @@ final class ValidationModel {
 
     /**
      * checks whether a given hash input is valid or not
-     *
-     * @param pHash
-     * @return
      */
     private static boolean isValidHashFormat(String pHash) {
         // check if empty
-        if (pHash == null || pHash.isEmpty()) {
+        if (pHash == null || pHash.isEmpty() || pHash.length() > 256) {
             return false;
         }
 
-        // check if too long
-        if (pHash.length() > 256) {
-            // invalid
-            return false;
-        }
-
-        if (isValidSHA1(pHash)) {
-            return true;
-        } else if (isValidSHA256(pHash)) {
-            return true;
-        } else {
-            return false;
-        }
+        return isValidSHA1(pHash) || isValidSHA256(pHash);
     }
 
     /**
      * checks whether a given api is valid or not
-     *
-     * @return
      */
     private static boolean isValidApiKeyFormat(String pApiKey) {
         // check if empty
@@ -136,9 +106,6 @@ final class ValidationModel {
 
     /**
      * validates if a given input hash is a valid sha256
-     *
-     * @param pHash
-     * @return
      */
     private static boolean isValidSHA256(String pHash) {
         return pHash.matches("[A-Fa-f0-9]{64}");
@@ -146,9 +113,6 @@ final class ValidationModel {
 
     /**
      * validates if a given input hash is in SHA1 format
-     *
-     * @param s
-     * @return
      */
     private static boolean isValidSHA1(String s) {
         return s.matches("[a-fA-F0-9]{40}");
@@ -156,9 +120,6 @@ final class ValidationModel {
 
     /**
      * validates an input mail address
-     *
-     * @param s
-     * @return
      */
     private static boolean isMailValid(String s) {
         return s.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

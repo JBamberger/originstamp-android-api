@@ -23,27 +23,30 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
- * Created by Thomas on 04.04.17.
+ * Entry class into the Originstamp Api.
  */
 public class OriginStampAPI {
-    // endpoint
+
     private static final String API_ENDPOINT = "http://api.originstamp.org/api/";
-    // member variable
+
     private String apiKey;
     private final OriginStampService api;
 
+
     /**
-     * constructor which creates a new instance of the current class
+     * Creates a new instance with the default endpoint and given api key.
+     *
+     * @param pApiKey your api key from originstamp.org
      */
     public OriginStampAPI(String pApiKey) {
         this(pApiKey, API_ENDPOINT);
     }
 
     /**
-     * constructor
+     * Creates a new instance with a custom endpoint and the given api key.
      *
-     * @param pApiKey
-     * @param pEndpoint
+     * @param pApiKey your api key from originstamp.org
+     * @param pEndpoint custom api endpoint
      */
     public OriginStampAPI(String pApiKey, String pEndpoint) {
         this.apiKey = pApiKey;
@@ -64,9 +67,11 @@ public class OriginStampAPI {
     }
 
     /**
-     * sends a post request with the request body to store a new hash at originstamp
+     * Sends a request to store the hash with the given options.
      *
-     * @return
+     * @param pHash hash value to store
+     * @param pHashRequestDTO storage options
+     * @return parsed server response
      */
     public HashResponseDTO storeHashInformation(String pHash, HashRequestDTO pHashRequestDTO)
             throws InvalidCommentException, InvalidMailFormatException,
@@ -89,10 +94,10 @@ public class OriginStampAPI {
     }
 
     /**
-     * requests the seed file for a hash
+     * Downloads the seed file of a given hash.
      *
-     * @param pHash
-     * @return
+     * @param pHash hash contained in the seed file
+     * @return the seed file containing the hash value
      */
     public String getSeed(String pHash)
             throws InvalidCommentException, InvalidMailFormatException,
@@ -118,12 +123,10 @@ public class OriginStampAPI {
     }
 
     /**
-     * requesting hash information from a given hash string in hex representation. If the hash does not exists,
+     * Requesting hash information from a given hash string in hex representation. If the hash does not exists,
      * a new entry will be created on OriginStamp.
      *
-     * @param pHash
-     * @return
-     * @throws IOException
+     * @return information associated with the hash value
      */
     public HashResponseDTO getHashInformation(String pHash)
             throws OriginStampInternalServerException, OriginStampRateLimitException,
@@ -148,12 +151,11 @@ public class OriginStampAPI {
     }
 
     /**
-     * requesting hash information for a given input byte array. The byte array
+     * Requesting hash information for a given input byte array. The byte array
      * is hashed with SHA256 and converted into a hex representation.
      *
-     * @param pInput
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @param pInput byte array that will be hashed
+     * @return information associated with the hash value of the input data
      */
     public HashResponseDTO getHashInformation(byte[] pInput)
             throws NoSuchAlgorithmException, IOException,
@@ -167,10 +169,10 @@ public class OriginStampAPI {
     }
 
     /**
-     * calculates the SHA 256 of an input array
+     * Calculates the SHA 256 of an input array.
      *
-     * @param pInput
-     * @return
+     * @param pInput Bytes that will be hashed.
+     * @return SHA256 hash value of the input data.
      */
     public String getSha256(byte[] pInput) throws NoSuchAlgorithmException {
         return HashModel.getSHA256(pInput);
