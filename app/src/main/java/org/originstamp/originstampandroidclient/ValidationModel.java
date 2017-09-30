@@ -1,5 +1,7 @@
 package org.originstamp.originstampandroidclient;
 
+import android.support.annotation.VisibleForTesting;
+
 import org.originstamp.originstampandroidclient.commons.HashRequestDTO;
 import org.originstamp.originstampandroidclient.exceptions.InvalidApiKeyFormatException;
 import org.originstamp.originstampandroidclient.exceptions.InvalidCommentException;
@@ -75,7 +77,8 @@ final class ValidationModel {
     /**
      * checks whether a given hash input is valid or not
      */
-    private static boolean isValidHashFormat(String pHash) {
+    @VisibleForTesting
+    static boolean isValidHashFormat(String pHash) {
         // check if empty
         if (pHash == null || pHash.isEmpty() || pHash.length() > 256) {
             return false;
@@ -87,7 +90,8 @@ final class ValidationModel {
     /**
      * checks whether a given api is valid or not
      */
-    private static boolean isValidApiKeyFormat(String pApiKey) {
+    @VisibleForTesting
+    static boolean isValidApiKeyFormat(String pApiKey) {
         // check if empty
         if (pApiKey == null || pApiKey.isEmpty()) {
             return false;
@@ -107,22 +111,25 @@ final class ValidationModel {
     /**
      * validates if a given input hash is a valid sha256
      */
-    private static boolean isValidSHA256(String pHash) {
-        return pHash.matches("[A-Fa-f0-9]{64}");
+    @VisibleForTesting
+    static boolean isValidSHA256(String pHash) {
+        return pHash != null && pHash.matches("[A-Fa-f0-9]{64}");
     }
 
     /**
      * validates if a given input hash is in SHA1 format
      */
-    private static boolean isValidSHA1(String s) {
-        return s.matches("[a-fA-F0-9]{40}");
+    @VisibleForTesting
+    static boolean isValidSHA1(String s) {
+        return s != null && s.matches("[a-fA-F0-9]{40}");
     }
 
     /**
      * validates an input mail address
      */
-    private static boolean isMailValid(String s) {
-        return s.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+    @VisibleForTesting
+    static boolean isMailValid(String s) {
+        return s != null && s.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
