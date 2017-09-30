@@ -13,11 +13,10 @@ import retrofit2.Response;
  * Created by Thomas on 04.04.17.
  */
 
-class ResponseValidatorModel {
-    /**
-     * constructor which creates a new instance of the current class
-     */
-    public ResponseValidatorModel() {
+final class ResponseValidatorModel {
+
+    private ResponseValidatorModel() {
+        throw new AssertionError("No instances of ResponseValidatorModel!");
     }
 
     /**
@@ -26,12 +25,7 @@ class ResponseValidatorModel {
      * @param pResponse
      * @throws InvalidApiKeyFormatException
      */
-    public Object handleResponse(Response pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
-        // get result code
-        return this.getResponse(pResponse);
-    }
-
-    private Object getResponse(Response pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
+    static Object handleResponse(Response pResponse) throws OriginStampBadRequestException, OriginStampForbiddenException, OriginStampResourceNotFoundException, OriginStampRateLimitException, OriginStampInternalServerException {
         // get result code
         int resultCode = pResponse.code();
 
@@ -40,6 +34,7 @@ class ResponseValidatorModel {
             case 200: // all fine
                 return pResponse.body();
             case 400:
+                //FIXME: either code 300 or code 400 is wrong.
                 throw new OriginStampBadRequestException("Your request parameters are invalid. HTTP Code: 300. " + pResponse.body().toString());
             case 403:
                 throw new OriginStampForbiddenException("Please check your API Key. It seems to be invalid. HTTP Code: 403." + pResponse.body().toString());

@@ -29,11 +29,6 @@ public class HashModelTest {
         testData.add(new Pair<>("nsdisadsaisdp asiao i809548 kldfi PISAUD)(1", "c56ad29fda1b8c5a5fb3d852876dde4fb2bcc495f7b59b0d784c0a7b69d512ef"));
         testData.add(new Pair<>("philip ehret stinkt :P", "398cd3761780e7251611a74a4023c89fce6ed8632be67d1f5ff32bb7d2337edb"));
 
-
-        // init hash service
-        HashModel hashService = new HashModel();
-
-
         LOGGER.info("evaluating data and compare");
         // for each test data entry
         for (int i = 0; i < testData.size(); i++) {
@@ -42,7 +37,7 @@ public class HashModelTest {
             String output = (String) pair.second;
 
             // calc hash
-            String hash = hashService.getSHA256(input.getBytes());
+            String hash = HashModel.getSHA256(input.getBytes());
 
             // must be identical
             Assert.assertEquals(hash, output);

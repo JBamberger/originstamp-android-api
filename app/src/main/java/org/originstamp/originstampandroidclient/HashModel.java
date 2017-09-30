@@ -7,14 +7,17 @@ import java.security.NoSuchAlgorithmException;
  * Created by Thomas on 04.04.17.
  */
 
-class HashModel {
+final class HashModel {
+
+    private HashModel() {throw new AssertionError("No instances of HashModel!");}
+
     /**
      * converts a byte array to its hex string representation
      *
      * @param pBytes
      * @return
      */
-    private String convertToHex(byte[] pBytes) {
+    private static String convertToHex(byte[] pBytes) {
         // init string buffer
         StringBuffer hexString = new StringBuffer();
 
@@ -35,7 +38,7 @@ class HashModel {
      * @param pBytes
      * @return
      */
-    public String getSHA256(byte[] pBytes) throws NoSuchAlgorithmException {
+    static String getSHA256(byte[] pBytes) throws NoSuchAlgorithmException {
         MessageDigest sha = MessageDigest.getInstance("SHA-256");
         sha.update(pBytes);
 

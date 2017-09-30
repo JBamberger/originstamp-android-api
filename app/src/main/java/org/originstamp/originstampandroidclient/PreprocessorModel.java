@@ -11,17 +11,20 @@ import org.originstamp.originstampandroidclient.exceptions.InvalidUrlFormatExcep
  * Created by Thomas on 04.04.17.
  */
 
-class PreprocessorModel {
+final class PreprocessorModel {
+
+    private PreprocessorModel() {
+        throw new AssertionError("No instances of PreprocessorModel!");
+    }
+
     /**
      * preprocesses the hash request. Validates the input and makes it lowercase
      *
      * @param pHashRequestDTO
      * @return
      */
-    public void preprocessRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO) throws InvalidHashFormatException, InvalidApiKeyFormatException, InvalidUrlFormatException, InvalidMailFormatException, InvalidCommentException {
+    static void preprocessRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO) throws InvalidHashFormatException, InvalidApiKeyFormatException, InvalidUrlFormatException, InvalidMailFormatException, InvalidCommentException {
         // create new validation model
-        ValidationModel validationModel = new ValidationModel();
-        // validate input
-        validationModel.validateStoreRequest(pHash, pApiKey, pHashRequestDTO);
+        ValidationModel.validateStoreRequest(pHash, pApiKey, pHashRequestDTO);
     }
 }

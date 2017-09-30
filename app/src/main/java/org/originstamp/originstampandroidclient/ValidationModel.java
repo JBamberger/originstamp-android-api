@@ -13,11 +13,10 @@ import java.util.UUID;
  * Created by Thomas on 04.04.17.
  */
 
-class ValidationModel {
-    /**
-     * constructor which creates a new instance of the current class
-     */
-    public ValidationModel() {
+final class ValidationModel {
+
+    private ValidationModel() {
+        throw new AssertionError("No instances of ValidatorModel!");
     }
 
     /**
@@ -31,7 +30,7 @@ class ValidationModel {
      * @throws InvalidMailFormatException
      * @throws InvalidUrlFormatException
      */
-    public void validateStoreRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO)
+    static void validateStoreRequest(String pHash, String pApiKey, HashRequestDTO pHashRequestDTO)
             throws InvalidHashFormatException,
             InvalidApiKeyFormatException, InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException {
 
@@ -53,7 +52,7 @@ class ValidationModel {
             pHashRequestDTO.setEmail(pHashRequestDTO.getEmail().toLowerCase());
 
             // validation of the mail address
-            if (!this.isMailValid(pHashRequestDTO.getEmail())) {
+            if (!isMailValid(pHashRequestDTO.getEmail())) {
                 throw new InvalidMailFormatException();
             }
         }
@@ -62,7 +61,7 @@ class ValidationModel {
             // lowercase
             pHashRequestDTO.setUrl(pHashRequestDTO.getUrl().toLowerCase());
 
-            if (!this.isValidApiKeyFormat(pHashRequestDTO.getUrl())) {
+            if (!isValidApiKeyFormat(pHashRequestDTO.getUrl())) {
                 throw new InvalidUrlFormatException();
             }
         }
@@ -76,12 +75,12 @@ class ValidationModel {
      * @throws InvalidHashFormatException
      * @throws InvalidApiKeyFormatException
      */
-    public void validateCredentials(String pApiKey, String pHash) throws InvalidHashFormatException, InvalidApiKeyFormatException {
-        if (!this.isValidHashFormat(pHash)) {
+    static void validateCredentials(String pApiKey, String pHash) throws InvalidHashFormatException, InvalidApiKeyFormatException {
+        if (!isValidHashFormat(pHash)) {
             throw new InvalidHashFormatException();
         }
 
-        if (!this.isValidApiKeyFormat(pApiKey)) {
+        if (!isValidApiKeyFormat(pApiKey)) {
             throw new InvalidApiKeyFormatException();
         }
     }
@@ -92,7 +91,7 @@ class ValidationModel {
      * @param pHash
      * @return
      */
-    private boolean isValidHashFormat(String pHash) {
+    private static boolean isValidHashFormat(String pHash) {
         // check if empty
         if (pHash == null || pHash.isEmpty()) {
             return false;
@@ -104,9 +103,9 @@ class ValidationModel {
             return false;
         }
 
-        if (this.isValidSHA1(pHash)) {
+        if (isValidSHA1(pHash)) {
             return true;
-        } else if (this.isValidSHA256(pHash)) {
+        } else if (isValidSHA256(pHash)) {
             return true;
         } else {
             return false;
@@ -118,7 +117,7 @@ class ValidationModel {
      *
      * @return
      */
-    private boolean isValidApiKeyFormat(String pApiKey) {
+    private static boolean isValidApiKeyFormat(String pApiKey) {
         // check if empty
         if (pApiKey == null || pApiKey.isEmpty()) {
             return false;
@@ -141,7 +140,7 @@ class ValidationModel {
      * @param pHash
      * @return
      */
-    private boolean isValidSHA256(String pHash) {
+    private static boolean isValidSHA256(String pHash) {
         return pHash.matches("[A-Fa-f0-9]{64}");
     }
 
@@ -151,7 +150,7 @@ class ValidationModel {
      * @param s
      * @return
      */
-    private boolean isValidSHA1(String s) {
+    private static boolean isValidSHA1(String s) {
         return s.matches("[a-fA-F0-9]{40}");
     }
 
@@ -161,7 +160,7 @@ class ValidationModel {
      * @param s
      * @return
      */
-    private boolean isMailValid(String s) {
+    private static boolean isMailValid(String s) {
         return s.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
