@@ -68,9 +68,15 @@ public class OriginStampAPI {
      *
      * @return
      */
-    public HashResponseDTO storeHashInformation(String pHash, HashRequestDTO pHashRequestDTO) throws InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException, InvalidApiKeyFormatException, InvalidHashFormatException, IOException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
+    public HashResponseDTO storeHashInformation(String pHash, HashRequestDTO pHashRequestDTO)
+            throws InvalidCommentException, InvalidMailFormatException,
+            InvalidUrlFormatException, InvalidApiKeyFormatException,
+            InvalidHashFormatException, IOException,
+            OriginStampInternalServerException, OriginStampRateLimitException,
+            OriginStampResourceNotFoundException, OriginStampBadRequestException,
+            OriginStampForbiddenException {
         // preprocessing
-        PreprocessorModel.preprocessRequest(pHash, this.apiKey, pHashRequestDTO);
+        ValidationModel.validateStoreRequest(pHash, this.apiKey, pHashRequestDTO);
 
         // call
         Call<HashResponseDTO> call = api.storeHashInformation(pHash, this.apiKey, pHashRequestDTO);
@@ -79,7 +85,7 @@ public class OriginStampAPI {
         Response<HashResponseDTO> response = call.execute();
 
         // handling the response and throwing exceptions if necessary
-        return (HashResponseDTO) ResponseValidatorModel.handleResponse(response);
+        return ResponseValidatorModel.handleResponse(response);
     }
 
     /**
@@ -88,9 +94,15 @@ public class OriginStampAPI {
      * @param pHash
      * @return
      */
-    public String getSeed(String pHash) throws InvalidCommentException, InvalidMailFormatException, InvalidUrlFormatException, InvalidApiKeyFormatException, InvalidHashFormatException, IOException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
+    public String getSeed(String pHash)
+            throws InvalidCommentException, InvalidMailFormatException,
+            InvalidUrlFormatException, InvalidApiKeyFormatException,
+            InvalidHashFormatException, IOException,
+            OriginStampInternalServerException, OriginStampRateLimitException,
+            OriginStampResourceNotFoundException, OriginStampBadRequestException,
+            OriginStampForbiddenException {
         // preprocessing
-        PreprocessorModel.preprocessRequest(pHash, this.apiKey, null);
+        ValidationModel.validateStoreRequest(pHash, this.apiKey, null);
 
         // call
         Call<ResponseBody> call = api.getSeedString(pHash, this.apiKey);
@@ -99,7 +111,7 @@ public class OriginStampAPI {
         Response<ResponseBody> response = call.execute();
 
         // validation
-        ResponseBody responseBody = (ResponseBody) ResponseValidatorModel.handleResponse(response);
+        ResponseBody responseBody = ResponseValidatorModel.handleResponse(response);
 
         // handling the response and throwing exceptions if necessary
         return responseBody.string();
@@ -113,7 +125,11 @@ public class OriginStampAPI {
      * @return
      * @throws IOException
      */
-    public HashResponseDTO getHashInformation(String pHash) throws OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException {
+    public HashResponseDTO getHashInformation(String pHash)
+            throws OriginStampInternalServerException, OriginStampRateLimitException,
+            OriginStampResourceNotFoundException, OriginStampBadRequestException,
+            OriginStampForbiddenException, IOException,
+            InvalidHashFormatException, InvalidApiKeyFormatException {
         // lower case
         pHash = pHash.toLowerCase();
         this.apiKey = this.apiKey.toLowerCase();
@@ -128,7 +144,7 @@ public class OriginStampAPI {
         Response<HashResponseDTO> response = call.execute();
 
         // handling the response and throwing exceptions if necessary
-        return (HashResponseDTO) ResponseValidatorModel.handleResponse(response);
+        return ResponseValidatorModel.handleResponse(response);
     }
 
     /**
@@ -139,7 +155,12 @@ public class OriginStampAPI {
      * @return
      * @throws NoSuchAlgorithmException
      */
-    public HashResponseDTO getHashInformation(byte[] pInput) throws NoSuchAlgorithmException, IOException, InvalidHashFormatException, InvalidApiKeyFormatException, OriginStampInternalServerException, OriginStampRateLimitException, OriginStampResourceNotFoundException, OriginStampBadRequestException, OriginStampForbiddenException {
+    public HashResponseDTO getHashInformation(byte[] pInput)
+            throws NoSuchAlgorithmException, IOException,
+            InvalidHashFormatException, InvalidApiKeyFormatException,
+            OriginStampInternalServerException, OriginStampRateLimitException,
+            OriginStampResourceNotFoundException, OriginStampBadRequestException,
+            OriginStampForbiddenException {
         // converting input to sha256 hash
         return this.getHashInformation(
                 getSha256(pInput));
