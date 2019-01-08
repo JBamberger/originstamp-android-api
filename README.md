@@ -1,3 +1,8 @@
+
+**THIS LIBRARY IS DISCONTINUED SINCE THE UPSTREAM REPOSITORY VANISHED**
+If you are interested in an up to date alternative, check out [this library](https://github.com/OriginStampTimestamping/originstamp-client-java).
+
+
 # OriginStamp for Android
 Android Client for the OriginStamp API
 
